@@ -266,3 +266,6 @@ sandbox/
 # ======================
 # Allow keeping empty directories with .gitkeep
 !.gitkeep
+# Claude AI files
+.claude/
+*.claude
