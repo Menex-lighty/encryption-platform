@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 API Documentation - Universal Encryption Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: var(--primary-color);">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-shield-alt"></i> Universal Encryption
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/demo">Demo</a>
+                <a class="nav-link active" href="/docs">API Docs</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="docs-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-4">
+                        📚 API Documentation
+                    </h1>
+                    <p class="lead">
+                        Complete reference for integrating Universal Encryption Platform into your applications
+                    </p>
+                    <div class="mt-4">
+                        <span class="badge bg-light text-dark me-2">Version 1.0</span>
+                        <span class="badge bg-light text-dark me-2">RESTful API</span>
+                        <span class="badge bg-light text-dark">JSON</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="docs-nav">
+                    <div class="nav-section">
+                        <h6><i class="fas fa-rocket"></i> Getting Started</h6>
+                        <a href="#overview" class="nav-link">Overview</a>
+                        <a href="#authentication" class="nav-link">Authentication</a>
+                        <a href="#base-url" class="nav-link">Base URL</a>
+                        <a href="#response-format" class="nav-link">Response Format</a>
+                    </div>
+                    
+                    <div class="nav-section">
+                        <h6><i class="fas fa-lock"></i> Encryption</h6>
+                        <a href="#encrypt-text" class="nav-link">Encrypt Text</a>
+                        <a href="#encrypt-file" class="nav-link">Encrypt File</a>
+                        <a href="#decrypt-data" class="nav-link">Decrypt Data</a>
+                    </div>
+                    
+                    <div class="nav-section">
+                        <h6><i class="fas fa-cogs"></i> Algorithms</h6>
+                        <a href="#list-algorithms" class="nav-link">List Algorithms</a>
+                        <a href="#algorithm-details" class="nav-link">Algorithm Details</a>
+                        <a href="#compare-algorithms" class="nav-link">Compare Algorithms</a>
+                        <a href="#recommend-algorithm" class="nav-link">Recommendations</a>
+                    </div>
+                    
+                    <div class="nav-section">
+                        <h6><i class="fas fa-folder"></i> File Management</h6>
+                        <a href="#list-files" class="nav-link">List Files</a>
+                        <a href="#download-file" class="nav-link">Download File</a>
+                        <a href="#delete-file" class="nav-link">Delete File</a>
+                    </div>
+                    
+                    <div class="nav-section">
+                        <h6><i class="fas fa-tools"></i> System</h6>
+                        <a href="#health-check" class="nav-link">Health Check</a>
+                        <a href="#system-status" class="nav-link">System Status</a>
+                        <a href="#test-encryption" class="nav-link">Test Encryption</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="docs-content">
+                    <section id="overview">
+                        <h2><i class="fas fa-info-circle text-primary"></i> Overview</h2>
+                        <p>
+                            The Universal Encryption Platform API provides comprehensive encryption services 
+                            with support for multiple algorithms, data types, and security levels. Built with 
+                            modern RESTful principles, it offers both simple text encryption and advanced 
+                            file processing capabilities.
+                        </p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="text-center p-3 border rounded">
+                                    <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+                                    <h6>Military-Grade Security</h6>
+                                    <small class="text-muted">AES-256, ChaCha20, RSA-4096</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center p-3 border rounded">
+                                    <i class="fas fa-rocket fa-2x text-primary mb-2"></i>
+                                    <h6>High Performance</h6>
+                                    <small class="text-muted">Optimized algorithms</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center p-3 border rounded">
+                                    <i class="fas fa-mobile-alt fa-2x text-info mb-2"></i>
+                                    <h6>Cross-Platform</h6>
+                                    <small class="text-muted">Web, Mobile, Desktop</small>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="base-url" class="mt-5">
+                        <h3>Base URL</h3>
+                        <div class="code-block">
+                            <code>https://your-domain.com/api</code>
+                        </div>
+                        <p>All API endpoints are relative to this base URL.</p>
+                    </section>
+
+                    <section id="authentication" class="mt-5">
+                        <h3>Authentication</h3>
+                        <p>
+                            Currently, the API operates without authentication for demo purposes. 
+                            In production, you would use API keys or JWT tokens.
+                        </p>
+                        <div class="code-block">
+                            <pre><code>// Future authentication header
+Authorization: Bearer YOUR_API_KEY</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="response-format" class="mt-5">
+                        <h3>Response Format</h3>
+                        <p>All responses are in JSON format with consistent structure:</p>
+                        
+                        <h6>Success Response:</h6>
+                        <div class="code-block">
+                            <pre><code>{
+  "success": true,
+  "data": {...},
+  "timestamp": "2024-01-20T15:30:00Z"
+}</code></pre>
+                        </div>
+
+                        <h6>Error Response:</h6>
+                        <div class="code-block">
+                            <pre><code>{
+  "success": false,
+  "error": "Error description",
+  "details": "Detailed error information",
+  "timestamp": "2024-01-20T15:30:00Z"
+}</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="encrypt-text" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-post">POST</span>
+                                    Encrypt Text Data
+                                </h4>
+                                <code>/api/encrypt</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Encrypt text data using a specified algorithm and password.</p>
+                                
+                                <h6>Request Body:</h6>
+                                <table class="table parameter-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>data</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>Text to encrypt</td>
+                                        </tr>
+                                        <tr>
+                                            <td>algorithm</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>Encryption algorithm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>password</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>Encryption password</td>
+                                        </tr>
+                                         <tr>
+                                            <td>options</td>
+                                            <td>object</td>
+                                            <td><span class="optional-badge">Optional</span></td>
+                                            <td>Additional options (e.g., `output_format`)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h6>Example Request:</h6>
+                                <div class="code-block">
+                                    <pre><code>POST /api/encrypt
+Content-Type: application/json
+
+{
+  "data": "Hello World!",
+  "algorithm": "AES-256-GCM",
+  "password": "your_password",
+  "options": {
+    "output_format": "base64",
+    "include_metadata": true
+  }
+}</code></pre>
+                                </div>
+
+                                <h6>Example Response:</h6>
+                                <div class="response-example">
+                                    <pre><code>{
+  "success": true,
+  "encrypted_data": "base64_encrypted_content...",
+  "metadata": {
+    "algorithm": "AES-256-GCM",
+    "iv": "base64_iv...",
+    "tag": "base64_tag...",
+    "salt": "base64_salt..."
+  }
+}</code></pre>
+                                </div>
+
+                                <button class="try-it-btn" onclick="openApiTester('/api/encrypt', 'POST')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="encrypt-file" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-post">POST</span>
+                                    Encrypt File
+                                </h4>
+                                <code>/api/encrypt/file</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Upload and encrypt a file using multipart/form-data.</p>
+                                
+                                <h6>Form Data:</h6>
+                                <table class="table parameter-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>file</td>
+                                            <td>file</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>The file to upload and encrypt (max 16MB).</td>
+                                        </tr>
+                                        <tr>
+                                            <td>algorithm</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>Encryption algorithm to use.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>password</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>Encryption password.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h6>Example Response:</h6>
+                                <div class="response-example">
+                                    <pre><code>{
+    "success": true,
+    "file_id": "unique_file_identifier",
+    "download_url": "/api/download/unique_file_identifier",
+    "metadata": {
+        "original_filename": "document.pdf",
+        "encrypted_size": 123456,
+        "algorithm": "AES-256-GCM"
+    }
+}</code></pre>
+                                </div>
+
+                                <button class="try-it-btn" onclick="alert('File upload testing requires file selection. Use the demo page for interactive file encryption testing.')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="decrypt-data" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-post">POST</span>
+                                    Decrypt Data
+                                </h4>
+                                <code>/api/decrypt</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Decrypt data that was previously encrypted by this service.</p>
+                                
+                                <h6>Request Body:</h6>
+                                <table class="table parameter-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>encrypted_data</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>Base64 encoded encrypted data.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>algorithm</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>The algorithm used for encryption.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>password</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>The password used for encryption.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>metadata</td>
+                                            <td>object</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>Metadata object returned from the encrypt endpoint (containing iv, salt, tag, etc).</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h6>Example Request:</h6>
+                                <div class="code-block">
+                                    <pre><code>POST /api/decrypt
+Content-Type: application/json
+
+{
+  "encrypted_data": "base64_encrypted_content...",
+  "algorithm": "AES-256-GCM",
+  "password": "your_password",
+  "metadata": {
+    "iv": "base64_iv...",
+    "tag": "base64_tag...",
+    "salt": "base64_salt..."
+  }
+}</code></pre>
+                                </div>
+                                
+                                <h6>Example Response:</h6>
+                                <div class="response-example">
+                                    <pre><code>{
+  "success": true,
+  "decrypted_data": "Hello World!"
+}</code></pre>
+                                </div>
+
+                                <button class="try-it-btn" onclick="openApiTester('/api/decrypt', 'POST')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="list-algorithms" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-get">GET</span>
+                                    List Available Algorithms
+                                </h4>
+                                <code>/api/algorithms</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Get a list of all available encryption algorithms supported by the platform.</p>
+                                
+                                <h6>Example Request:</h6>
+                                <div class="code-block">
+                                    <pre><code>GET /api/algorithms</code></pre>
+                                </div>
+
+                                <h6>Example Response:</h6>
+                                <div class="response-example">
+                                    <pre><code>{
+  "success": true,
+  "algorithms": {
+    "text": [
+      {
+        "name": "AES-256-GCM",
+        "category": "symmetric",
+        "security_level": "very_high",
+        "recommended": true
+      }
+    ],
+    "file": [...]
+  }
+}</code></pre>
+                                </div>
+
+                                <button class="try-it-btn" onclick="testEndpoint('/api/algorithms')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="algorithm-details" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-get">GET</span>
+                                    Get Algorithm Details
+                                </h4>
+                                <code>/api/algorithms/{algorithm_name}/details</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Get comprehensive information about a specific algorithm.</p>
+                                
+                                <h6>Path Parameters:</h6>
+                                <table class="table parameter-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>algorithm_name</td>
+                                            <td>string</td>
+                                            <td>Name of the algorithm (e.g., "AES-256-GCM")</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h6>Example Request:</h6>
+                                <div class="code-block">
+                                    <pre><code>GET /api/algorithms/AES-256-GCM/details</code></pre>
+                                </div>
+                                
+                                <button class="try-it-btn" onclick="testEndpoint('/api/algorithms/AES-256-GCM/details')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="compare-algorithms" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-post">POST</span>
+                                    Compare Algorithms
+                                </h4>
+                                <code>/api/algorithms/compare</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Compare multiple algorithms side-by-side based on their key metrics.</p>
+                                
+                                <h6>Request Body:</h6>
+                                <div class="code-block">
+                                    <pre><code>{
+  "algorithms": ["AES-256-GCM", "ChaCha20-Poly1305"],
+  "data_type": "text"
+}</code></pre>
+                                </div>
+
+                                <button class="try-it-btn" onclick="openApiTester('/api/algorithms/compare', 'POST')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="recommend-algorithm" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-post">POST</span>
+                                    Get Recommendations
+                                </h4>
+                                <code>/api/algorithms/recommend</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Get a recommended algorithm based on your specific requirements.</p>
+                                
+                                <h6>Request Body:</h6>
+                                <div class="code-block">
+                                    <pre><code>{
+  "data_type": "file",
+  "security_level": "high",
+  "performance_priority": "balanced",
+  "use_case": "general"
+}</code></pre>
+                                </div>
+                                
+                                <button class="try-it-btn" onclick="openApiTester('/api/algorithms/recommend', 'POST')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="list-files" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-get">GET</span>
+                                    List Files
+                                </h4>
+                                <code>/api/files</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Retrieve a paginated list of uploaded and encrypted files.</p>
+                                <h6>Query Parameters:</h6>
+                                <table class="table parameter-table">
+                                     <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>page</td>
+                                            <td>integer</td>
+                                            <td><span class="optional-badge">Optional</span></td>
+                                            <td>Page number for pagination (default: 1).</td>
+                                        </tr>
+                                        <tr>
+                                            <td>per_page</td>
+                                            <td>integer</td>
+                                            <td><span class="optional-badge">Optional</span></td>
+                                            <td>Number of items per page (default: 50).</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="try-it-btn" onclick="testFilesList()">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="download-file" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-get">GET</span>
+                                    Download File
+                                </h4>
+                                <code>/api/download/{file_id}</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Download and automatically decrypt a previously uploaded file.</p>
+                                
+                                <h6>Path Parameters:</h6>
+                                <table class="table parameter-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>file_id</td>
+                                            <td>string</td>
+                                            <td>The unique ID of the file to download.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h6>Query Parameters:</h6>
+                                <table class="table parameter-table">
+                                     <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>password</td>
+                                            <td>string</td>
+                                            <td><span class="required-badge">Required</span></td>
+                                            <td>The password required to decrypt the file.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="try-it-btn" onclick="testFileDownload()">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="delete-file" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-delete">DELETE</span>
+                                    Delete File
+                                </h4>
+                                <code>/api/files/{file_id}</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Permanently delete an encrypted file from the server.</p>
+                                <h6>Path Parameters:</h6>
+                                <table class="table parameter-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>file_id</td>
+                                            <td>string</td>
+                                            <td>The unique ID of the file to delete.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="try-it-btn" onclick="testFileDelete()">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="health-check" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-get">GET</span>
+                                    Health Check
+                                </h4>
+                                <code>/api/health</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Check system health and availability.</p>
+                                
+                                <h6>Example Response:</h6>
+                                <div class="response-example">
+                                    <pre><code>{
+  "status": "healthy",
+  "timestamp": "2024-01-20T15:30:00Z",
+  "algorithms_loaded": 10
+}</code></pre>
+                                </div>
+
+                                <button class="try-it-btn" onclick="testEndpoint('/api/health')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="system-status" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-get">GET</span>
+                                    System Status
+                                </h4>
+                                <code>/api/system/status</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Get detailed system status, uptime, and performance metrics.</p>
+                                <button class="try-it-btn" onclick="testSystemStatus()">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="test-encryption" class="mt-5">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <h4>
+                                    <span class="method-badge method-post">POST</span>
+                                    Test Encryption
+                                </h4>
+                                <code>/api/test/encryption</code>
+                            </div>
+                            <div class="p-4">
+                                <p>Run a self-test on a specific algorithm to ensure it is functioning correctly.</p>
+                                <h6>Request Body:</h6>
+                                <div class="code-block">
+                                    <pre><code>{
+  "algorithm": "AES-256-GCM"
+}</code></pre>
+                                </div>
+                                <button class="try-it-btn" onclick="openApiTester('/api/test/encryption', 'POST')">
+                                    <i class="fas fa-play"></i> Try It Out
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="error-codes" class="mt-5">
+                        <h3>Error Codes</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Status Code</th>
+                                    <th>Meaning</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>200</td>
+                                    <td>OK</td>
+                                    <td>Request successful</td>
+                                </tr>
+                                <tr>
+                                    <td>400</td>
+                                    <td>Bad Request</td>
+                                    <td>Invalid request parameters</td>
+                                </tr>
+                                <tr>
+                                    <td>404</td>
+                                    <td>Not Found</td>
+                                    <td>Endpoint or resource not found</td>
+                                </tr>
+                                <tr>
+                                    <td>413</td>
+                                    <td>Payload Too Large</td>
+                                    <td>File size exceeds limit (16MB)</td>
+                                </tr>
+                                <tr>
+                                    <td>500</td>
+                                    <td>Internal Server Error</td>
+                                    <td>Server processing error</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/docs.js') }}"></script>
+</body>
+</html>

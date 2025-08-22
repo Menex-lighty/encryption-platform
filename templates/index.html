@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Universal Encryption Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-shield-alt"></i> Universal Encryption
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link active" href="/">Home</a>
+                <a class="nav-link" href="/demo">Demo</a>
+                <a class="nav-link" href="/docs">API Docs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="display-4 fw-bold mb-4">
+                        🔐 Universal Encryption Platform
+                    </h1>
+                    <p class="lead mb-5">
+                        Cross-platform encryption system with intelligent algorithm selection. 
+                        Secure your text, images, videos, and files with industry-standard cryptography.
+                    </p>
+                    
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">{{ algorithms.text|length + algorithms.image|length + algorithms.file|length }}</span>
+                            <span>Algorithms</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4</span>
+                            <span>Data Types</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">∞</span>
+                            <span>File Size</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span>Available</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <a href="/demo" class="btn btn-primary-custom btn-lg me-3">
+                            <i class="fas fa-play"></i> Try Live Demo
+                        </a>
+                        <a href="/docs" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-book"></i> API Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Text Encryption -->
+                <div class="col-lg-6">
+                    <div class="feature-card">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-file-alt fa-3x text-primary"></i>
+                            <h3 class="mt-3">Text Encryption</h3>
+                        </div>
+                        <p class="text-muted mb-4">
+                            Secure your messages and documents with military-grade encryption algorithms.
+                        </p>
+                        <div class="mb-3">
+                            <strong>Available Algorithms:</strong>
+                        </div>
+                        {% for algo in algorithms.text %}
+                            {% if algo == 'AES-256-GCM' %}
+                                <span class="algorithm-badge badge-high">{{ algo }} ⭐</span>
+                            {% elif algo in ['ChaCha20-Poly1305', 'RSA-4096'] %}
+                                <span class="algorithm-badge badge-high">{{ algo }}</span>
+                            {% elif algo in ['Caesar', 'Vigenere', 'ROT13', 'Atbash'] %}
+                                <span class="algorithm-badge badge-educational">{{ algo }}</span>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="mt-4">
+                            <small class="text-muted">
+                                <i class="fas fa-shield-alt text-success"></i> Industry Standard
+                                <i class="fas fa-graduation-cap text-info ms-3"></i> Educational Options
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Image & File Encryption -->
+                <div class="col-lg-6">
+                    <div class="feature-card">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-images fa-3x text-success"></i>
+                            <h3 class="mt-3">Media & Files</h3>
+                        </div>
+                        <p class="text-muted mb-4">
+                            Protect your images, videos, and documents with specialized encryption methods.
+                        </p>
+                        <div class="mb-3">
+                            <strong>Supported Types:</strong>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="d-block"><i class="fas fa-image text-primary"></i> Images</small>
+                                <small class="d-block"><i class="fas fa-video text-danger"></i> Videos</small>
+                                <small class="d-block"><i class="fas fa-file-pdf text-warning"></i> Documents</small>
+                            </div>
+                            <div class="col-6">
+                                <small class="d-block"><i class="fas fa-file-archive text-info"></i> Archives</small>
+                                <small class="d-block"><i class="fas fa-file-code text-success"></i> Code Files</small>
+                                <small class="d-block"><i class="fas fa-file text-secondary"></i> Any File Type</small>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <small class="text-muted">
+                                <i class="fas fa-upload text-primary"></i> Drag & Drop Upload
+                                <i class="fas fa-download text-success ms-3"></i> Secure Download
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="api-section">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2 class="mb-4">
+                            <i class="fas fa-code text-primary"></i> Developer API
+                        </h2>
+                        <p class="lead">
+                            RESTful API for integrating encryption capabilities into your applications.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success"></i> 
+                                Cross-platform compatibility
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success"></i> 
+                                Multiple output formats (Base64, Hex)
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success"></i> 
+                                Comprehensive error handling
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success"></i> 
+                                Detailed algorithm information
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <a href="/docs" class="btn btn-primary me-3">
+                                <i class="fas fa-book"></i> View Documentation
+                            </a>
+                            <a href="/api/algorithms" class="btn btn-outline-primary" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Test API
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <h5>Quick Example:</h5>
+                        <div class="code-block">
+                            <pre><code>POST /api/encrypt
+{
+  "data": "Hello World",
+  "algorithm": "AES-256-GCM",
+  "password": "your_password"
+}
+
+Response:
+{
+  "success": true,
+  "encrypted_data": "base64_data...",
+  "metadata": {
+    "algorithm": "AES-256-GCM",
+    "iv": "random_iv...",
+    "tag": "auth_tag...",
+    "salt": "random_salt..."
+  }
+}</code></pre>
+                        </div>
+                        
+                        <h5 class="mt-4">Algorithm Discovery:</h5>
+                        <div class="code-block">
+                            <pre><code>GET /api/algorithms/text
+
+Response:
+{
+  "data_type": "text",
+  "algorithms": [
+    {
+      "name": "AES-256-GCM",
+      "security_level": "very_high",
+      "speed": "fast",
+      "recommended": true
+    }
+  ]
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center text-white mb-5">Platform Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                        <h5>Smart Algorithm Selection</h5>
+                        <p class="text-muted">
+                            Intelligent recommendations based on data type and security requirements.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-graduation-cap fa-3x text-info mb-3"></i>
+                        <h5>Educational Content</h5>
+                        <p class="text-muted">
+                            Learn cryptography with interactive examples and detailed explanations.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+                        <h5>Military-Grade Security</h5>
+                        <p class="text-muted">
+                            Industry-standard algorithms with proper key derivation and authentication.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-mobile-alt fa-3x text-warning mb-3"></i>
+                        <h5>Cross-Platform</h5>
+                        <p class="text-muted">
+                            Works seamlessly across web, mobile, and desktop applications.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-code fa-3x text-danger mb-3"></i>
+                        <h5>Developer Friendly</h5>
+                        <p class="text-muted">
+                            RESTful API with comprehensive documentation and code examples.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-clock fa-3x text-secondary mb-3"></i>
+                        <h5>Real-Time Processing</h5>
+                        <p class="text-muted">
+                            Fast encryption and decryption with optimized algorithm implementations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 text-center text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5 class="mb-3">🔐 Universal Encryption Platform</h5>
+                    <p class="mb-4">
+                        Built with ❤️ for secure communications and cryptography education
+                    </p>
+                    <div class="mb-4">
+                        <a href="/demo" class="btn btn-outline-light me-2">
+                            <i class="fas fa-play"></i> Live Demo
+                        </a>
+                        <a href="/docs" class="btn btn-outline-light me-2">
+                            <i class="fas fa-book"></i> API Docs
+                        </a>
+                        <a href="/api/health" class="btn btn-outline-light">
+                            <i class="fas fa-heartbeat"></i> System Status
+                        </a>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <h6>Algorithms</h6>
+                            <small>AES, ChaCha20, RSA<br>Classical Ciphers</small>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Data Types</h6>
+                            <small>Text, Images, Videos<br>Documents, Files</small>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Security</h6>
+                            <small>Military-Grade<br>Open Source</small>
+                        </div>
+                    </div>
+                    <hr class="my-4" style="border-color: rgba(255,255,255,0.3);">
+                    <small>
+                        &copy; 2024 Universal Encryption Platform. Built for education and secure communications.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

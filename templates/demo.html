@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Interactive Demo - Universal Encryption Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-shield-alt"></i> Universal Encryption
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link active" href="/demo">Demo</a>
+                <a class="nav-link" href="/docs">API Docs</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header text-center text-white py-4">
+            <h1 class="display-4 fw-bold">🔧 Interactive Demo</h1>
+            <p class="lead">Test encryption algorithms in real-time</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="nav-section">
+                    <h3>🔐 Encryption</h3>
+                    <div class="nav-item active" onclick="showSection('encrypt-text')">Encrypt Text</div>
+                    <div class="nav-item" onclick="showSection('encrypt-file')">Encrypt File</div>
+                    <div class="nav-item" onclick="showSection('decrypt-data')">Decrypt Data</div>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>🔍 System</h3>
+                    <div class="nav-item" onclick="showSection('system-status')">System Status</div>
+                    <div class="nav-item" onclick="showSection('test-encryption')">Test Encryption</div>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>📁 File Management</h3>
+                    <div class="nav-item" onclick="showSection('download-file')">Download File</div>
+                    <div class="nav-item" onclick="showSection('list-files')">List Files</div>
+                    <div class="nav-item" onclick="showSection('delete-file')">Delete File</div>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>🆚 Compare</h3>
+                    <div class="nav-item" onclick="showSection('compare-algorithms')">Compare Algorithms</div>
+                    <div class="nav-item" onclick="showSection('recommendations')">Recommendations</div>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <div id="encrypt-text" class="content-section active">
+                    <h2>📝 Encrypt Text</h2>
+                    <div class="form-group">
+                        <label for="text-input">Text to Encrypt:</label>
+                        <textarea id="text-input" class="form-control" placeholder="Enter your text here...">Hello World! This is a test message.</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Select Algorithm:</label>
+                        <div class="algorithm-grid" id="text-algorithms">
+                            </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="text-password">Password:</label>
+                        <input type="password" id="text-password" class="form-control" placeholder="Enter encryption password">
+                    </div>
+                    
+                    <button class="btn" onclick="encryptText()">🔐 Encrypt Text</button>
+                    <button class="btn btn-secondary" onclick="clearResults()">🗑️ Clear</button>
+                    
+                    <div id="text-loading" class="loading">Encrypting...</div>
+                    <div id="text-result" class="result-area" style="display: none;">
+                        <h4>Encryption Result:</h4>
+                        <div id="text-result-content" class="result-content"></div>
+                    </div>
+                </div>
+                
+                <div id="encrypt-file" class="content-section">
+                    <h2>📁 Encrypt File</h2>
+                    <div class="file-drop-zone" onclick="document.getElementById('file-input').click()">
+                        <p>📎 Click to select file or drag and drop</p>
+                        <p><small>Maximum file size: 16MB</small></p>
+                        <input type="file" id="file-input" style="display: none;" onchange="handleFileSelect(event)">
+                    </div>
+                    
+                    <div id="file-info" style="display: none; margin-top: 20px;">
+                        <h4>Selected File:</h4>
+                        <p id="file-details"></p>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Select Algorithm:</label>
+                        <div class="algorithm-grid" id="file-algorithms">
+                            </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="file-password">Password:</label>
+                        <input type="password" id="file-password" class="form-control" placeholder="Enter encryption password">
+                    </div>
+                    
+                    <button class="btn" onclick="encryptFile()">🔐 Encrypt File</button>
+                    
+                    <div id="file-loading" class="loading">Encrypting file...</div>
+                    <div id="file-result" class="result-area" style="display: none;">
+                        <h4>File Encryption Result:</h4>
+                        <div id="file-result-content" class="result-content"></div>
+                    </div>
+                </div>
+                
+                <div id="decrypt-data" class="content-section">
+                    <h2>🔓 Decrypt Data</h2>
+                    <div class="form-group">
+                        <label for="decrypt-data-input">Encrypted Data:</label>
+                        <textarea id="decrypt-data-input" class="form-control" placeholder="Paste encrypted data here..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="decrypt-algorithm">Algorithm:</label>
+                        <select id="decrypt-algorithm" class="form-control" onchange="updateDecryptPasswordField()">
+                            <option value="AES-256-GCM">AES-256-GCM</option>
+                            <option value="ChaCha20-Poly1305">ChaCha20-Poly1305</option>
+                            <option value="XChaCha20-Poly1305">XChaCha20-Poly1305</option>
+                            <option value="RSA-4096">RSA-4096</option>
+                            <option value="FF1-AES">FF1-AES</option>
+                            <option value="Kyber-768">Kyber-768</option>
+                            <option value="Caesar">Caesar Cipher</option>
+                            <option value="Enigma">Enigma Machine</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="decrypt-password">Password:</label>
+                        <input type="password" id="decrypt-password" class="form-control" placeholder="Enter decryption password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="decrypt-metadata">Metadata (JSON):</label>
+                        <textarea id="decrypt-metadata" class="form-control" placeholder="Paste metadata JSON here..."></textarea>
+                    </div>
+                    
+                    <button class="btn" onclick="decryptData()">🔓 Decrypt Data</button>
+                    
+                    <div id="decrypt-loading" class="loading">Decrypting...</div>
+                    <div id="decrypt-result" class="result-area" style="display: none;">
+                        <h4>Decryption Result:</h4>
+                        <div id="decrypt-result-content" class="result-content"></div>
+                    </div>
+                </div>
+                
+                <div id="system-status" class="content-section">
+                    <h2>🖥️ System Status</h2>
+                    <button class="btn" onclick="checkSystemStatus()">🔄 Refresh Status</button>
+                    
+                    <div id="status-loading" class="loading">Loading system status...</div>
+                    <div id="status-result" class="result-area">
+                        <h4>System Information:</h4>
+                        <div id="status-content" class="result-content">Click "Refresh Status" to load system information</div>
+                    </div>
+                </div>
+                
+                <div id="test-encryption" class="content-section">
+                    <h2>🧪 Test Encryption</h2>
+                    <p>Test the encryption system with sample data to verify functionality.</p>
+                    
+                    <div class="form-group">
+                        <label for="test-algorithm">Algorithm to Test:</label>
+                        <select id="test-algorithm" class="form-control">
+                            <option value="AES-256-GCM">AES-256-GCM</option>
+                            <option value="ChaCha20-Poly1305">ChaCha20-Poly1305</option>
+                            <option value="XChaCha20-Poly1305">XChaCha20-Poly1305</option>
+                            <option value="RSA-4096">RSA-4096</option>
+                            <option value="FF1-AES">FF1-AES</option>
+                            <option value="Kyber-768">Kyber-768</option>
+                            <option value="Caesar">Caesar Cipher</option>
+                            <option value="Enigma">Enigma Machine</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn" onclick="testEncryption()">🧪 Run Test</button>
+                    
+                    <div id="test-loading" class="loading">Running encryption test...</div>
+                    <div id="test-result" class="result-area" style="display: none;">
+                        <h4>Test Results:</h4>
+                        <div id="test-result-content" class="result-content"></div>
+                    </div>
+                </div>
+                
+                <div id="download-file" class="content-section">
+                    <h2>📥 Download File</h2>
+                    <div class="form-group">
+                        <label for="download-file-id">File ID:</label>
+                        <input type="text" id="download-file-id" class="form-control" placeholder="Enter file ID">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="download-password">Decryption Password:</label>
+                        <input type="password" id="download-password" class="form-control" placeholder="Enter password">
+                    </div>
+                    
+                    <button class="btn" onclick="downloadFile()">📥 Download & Decrypt</button>
+                    
+                    <div id="download-result" class="result-area" style="display: none;">
+                        <h4>Download Status:</h4>
+                        <div id="download-content" class="result-content"></div>
+                    </div>
+                </div>
+                
+                <div id="list-files" class="content-section">
+                    <h2>📋 List Files</h2>
+                    <button class="btn" onclick="listFiles()">🔄 Refresh File List</button>
+                    
+                    <div id="files-loading" class="loading">Loading files...</div>
+                    <div id="files-result" class="result-area">
+                        <h4>Uploaded Files:</h4>
+                        <div id="files-content" class="result-content">Click "Refresh File List" to load files</div>
+                    </div>
+                </div>
+                
+                <div id="delete-file" class="content-section">
+                    <h2>🗑️ Delete File</h2>
+                    <div class="form-group">
+                        <label for="delete-file-id">File ID:</label>
+                        <input type="text" id="delete-file-id" class="form-control" placeholder="Enter file ID to delete">
+                    </div>
+                    
+                    <button class="btn" onclick="deleteFile()">🗑️ Delete File</button>
+                    
+                    <div id="delete-result" class="result-area" style="display: none;">
+                        <h4>Deletion Status:</h4>
+                        <div id="delete-content" class="result-content"></div>
+                    </div>
+                </div>
+                
+                <div id="compare-algorithms" class="content-section">
+                    <h2>🆚 Compare Algorithms</h2>
+                    <p>Select algorithms to compare their security, performance, and characteristics.</p>
+                    
+                    <div class="form-group">
+                        <label>Select Algorithms to Compare:</label>
+                        <div id="compare-algorithm-list">
+                            <label><input type="checkbox" value="AES-256-GCM"> AES-256-GCM</label><br>
+                            <label><input type="checkbox" value="ChaCha20-Poly1305"> ChaCha20-Poly1305</label><br>
+                            <label><input type="checkbox" value="XChaCha20-Poly1305"> XChaCha20-Poly1305</label><br>
+                            <label><input type="checkbox" value="RSA-4096"> RSA-4096</label><br>
+                            <label><input type="checkbox" value="FF1-AES"> FF1-AES</label><br>
+                            <label><input type="checkbox" value="Kyber-768"> Kyber-768 (Post-Quantum)</label><br>
+                            <label><input type="checkbox" value="Caesar"> Caesar Cipher</label><br>
+                            <label><input type="checkbox" value="Enigma"> Enigma Machine</label><br>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="compareAlgorithms()">🆚 Compare Selected</button>
+                    
+                    <div id="compare-loading" class="loading">Comparing algorithms...</div>
+                    <div id="compare-result" class="result-area" style="display: none;">
+                        <h4>Algorithm Comparison:</h4>
+                        <div id="compare-content" class="result-content"></div>
+                    </div>
+                </div>
+                
+                <div id="recommendations" class="content-section">
+                    <h2>💡 Algorithm Recommendations</h2>
+                    <div class="form-group">
+                        <label for="rec-data-type">Data Type:</label>
+                        <select id="rec-data-type" class="form-control">
+                            <option value="text">Text</option>
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                            <option value="file">File</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rec-security-level">Security Level:</label>
+                        <select id="rec-security-level" class="form-control">
+                            <option value="high">High</option>
+                            <option value="very_high">Very High</option>
+                            <option value="educational">Educational</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rec-performance">Performance Priority:</label>
+                        <select id="rec-performance" class="form-control">
+                            <option value="balanced">Balanced</option>
+                            <option value="high">High Performance</option>
+                            <option value="security">Security First</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn" onclick="getRecommendations()">💡 Get Recommendations</button>
+                    
+                    <div id="rec-loading" class="loading">Getting recommendations...</div>
+                    <div id="rec-result" class="result-area" style="display: none;">
+                        <h4>Recommended Algorithms:</h4>
+                        <div id="rec-content" class="result-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/demo.js') }}"></script>
+</body>
+</html>

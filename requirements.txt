@@ -1,0 +1,99 @@
+# Flask Backend Dependencies for Universal Encryption Platform
+# Phase 1: Core Foundation - Windows Compatible
+
+# ================================
+# Core Web Framework
+# ================================
+Flask==2.3.3
+Flask-CORS==4.0.0
+Werkzeug==2.3.7
+
+# ================================
+# Cryptography Libraries
+# ================================
+cryptography==41.0.7              # Main crypto library (AES, RSA, etc.)
+pycryptodome==3.19.0              # Additional crypto algorithms
+argon2-cffi==23.1.0               # Argon2 key derivation
+bcrypt==4.1.2                     # Password hashing
+
+# ================================
+# File Handling & Validation (Windows Compatible)
+# ================================
+# Option 1: python-magic with Windows binaries (recommended)
+python-magic-bin==0.4.14          # Magic binaries for Windows (install first)
+python-magic==0.4.27              # File type detection (install after binaries)
+
+# Option 2: Alternative file type detection (more reliable on Windows)
+filetype==1.2.0                   # Pure Python file type detection
+mimetypes                          # Built-in Python module (no install needed)
+
+# Image processing
+Pillow==10.1.0                    # Image processing
+
+# ================================
+# Data Processing
+# ================================
+numpy==1.24.4                     # Numerical operations
+pandas==2.0.3                     # Data analysis (optional)
+
+# ================================
+# Security & Validation
+# ================================
+email-validator==2.1.0            # Email validation
+python-jose[cryptography]==3.3.0  # JWT handling
+passlib[bcrypt]==1.7.4            # Password utilities
+
+# ================================
+# HTTP & API
+# ================================
+requests==2.31.0                  # HTTP client
+urllib3==2.0.7                    # URL handling
+
+# ================================
+# Development & Testing
+# ================================
+pytest==7.4.3                     # Testing framework
+pytest-flask==1.3.0               # Flask testing utilities
+pytest-cov==4.1.0                 # Coverage reporting
+pytest-timeout==2.1.0             # Test timeout handling
+pytest-xdist==3.3.1               # Parallel test execution
+pytest-mock==3.12.0               # Enhanced mocking
+pytest-benchmark==4.0.0           # Performance benchmarking
+black==23.11.0                    # Code formatting
+flake8==6.1.0                     # Code linting
+isort==5.12.0                     # Import sorting
+mypy==1.7.1                       # Type checking
+bandit==1.7.5                     # Security testing
+safety==2.3.5                     # Dependency vulnerability scanning
+
+# ================================
+# Production & Monitoring
+# ================================
+gunicorn==21.2.0                  # WSGI server (Unix only)
+python-dotenv==1.0.0              # Environment variables
+psutil==5.9.6                     # System monitoring
+
+# ================================
+# Version Constraints
+# ================================
+# Ensure compatibility with Python 3.8+
+setuptools>=65.0.0
+wheel>=0.38.0
+pip>=22.0.0
+
+# ================================
+# Windows Specific Notes
+# ================================
+# For Windows users:
+# 1. Install python-magic-bin BEFORE python-magic
+# 2. Alternative: Use filetype library for more reliable detection
+# 3. If issues persist, install libmagic manually:
+#    - Download from: https://github.com/pidydx/libmagicwin64
+#    - Extract to Python/DLLs or add to PATH
+
+# ================================
+# Security Notes
+# ================================
+# All versions pinned for security and reproducibility
+# Regular updates recommended for security patches
+# Test thoroughly before upgrading cryptography dependencies
