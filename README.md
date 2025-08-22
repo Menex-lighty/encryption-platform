@@ -51,8 +51,8 @@ This backend implements the Universal Encryption Platform MVP with intelligent a
 ### **Option 1: Direct Python Run**
 ```bash
 # 1. Clone and setup
-git clone https://github.com/your-username/universal-encryption-platform.git
-cd universal-encryption-platform
+git clone https://github.com/Menex-lighty/encryption-platform.git
+cd encryption-platform
 
 # 2. Create virtual environment (recommended)
 python -m venv venv
@@ -535,9 +535,9 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## 📞 **Support & Contact**
 
 - **📧 Email**: rishabhsinha1712@gmail.com
-- **🐛 Issues**: [GitHub Issues](https://github.com/your-repo/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/your-repo/discussions)
-- **📚 Documentation**: [API Docs](http://localhost:5000/docs)
+- **🐛 Issues**: [GitHub Issues](https://github.com/Menex-lighty/encryption-platform/issues)
+- **💬 Discussions**: [GitHub Discussions](https://github.com/Menex-lighty/encryption-platform/discussions)
+- **📚 Documentation**: [Live API Docs](http://localhost:5000/docs) (after running locally)
 
 ## 🏆 **Acknowledgments**
 
