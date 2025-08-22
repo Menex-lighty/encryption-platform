@@ -1,0 +1,227 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/.github/workflows/simple-test.yml b/.github/workflows/simple-test.yml[m
+[1mdeleted file mode 100644[m
+[1mindex 1ec51ba..0000000[m
+[1m--- a/.github/workflows/simple-test.yml[m
+[1m+++ /dev/null[m
+[36m@@ -1,41 +0,0 @@[m
+[31m-name: Basic Tests[m
+[31m-[m
+[31m-on:[m
+[31m-  push:[m
+[31m-    branches: [ main ][m
+[31m-  pull_request:[m
+[31m-    branches: [ main ][m
+[31m-[m
+[31m-jobs:[m
+[31m-  test:[m
+[31m-    name: Basic Python Tests[m
+[31m-    runs-on: ubuntu-latest[m
+[31m-    [m
+[31m-    steps:[m
+[31m-    - uses: actions/checkout@v4[m
+[31m-    [m
+[31m-    - name: Set up Python 3.10[m
+[31m-      uses: actions/setup-python@v4[m
+[31m-      with:[m
+[31m-        python-version: '3.10'[m
+[31m-    [m
+[31m-    - name: Install dependencies[m
+[31m-      run: |[m
+[31m-        python -m pip install --upgrade pip[m
+[31m-        pip install pytest[m
+[31m-        pip install -r requirements.txt[m
+[31m-    [m
+[31m-    - name: Run basic tests[m
+[31m-      run: |[m
+[31m-        python -c "import app; print('✅ App imports successfully')"[m
+[31m-        python -c "from app import create_app; app = create_app(); print('✅ App creates successfully')"[m
+[31m-    [m
+[31m-    - name: Test API health check[m
+[31m-      run: |[m
+[31m-        python -c "[m
+[31m-        from app import create_app[m
+[31m-        app = create_app()[m
+[31m-        with app.test_client() as client:[m
+[31m-            response = client.get('/api/health')[m
+[31m-            print('✅ Health check:', response.status_code)[m
+[31m-        "[m
+\ No newline at end of file[m
+[1mdiff --git a/.github/workflows/test.yml b/.github/workflows/test.yml[m
+[1mdeleted file mode 100644[m
+[1mindex d1d6e97..0000000[m
+[1m--- a/.github/workflows/test.yml[m
+[1m+++ /dev/null[m
+[36m@@ -1,288 +0,0 @@[m
+[31m-name: Test Suite[m
+[31m-[m
+[31m-on:[m
+[31m-  push:[m
+[31m-    branches: [ main, develop ][m
+[31m-  pull_request:[m
+[31m-    branches: [ main, develop ][m
+[31m-  schedule:[m
+[31m-    # Run tests daily at 6 AM UTC[m
+[31m-    - cron: '0 6 * * *'[m
+[31m-[m
+[31m-jobs:[m
+[31m-  lint:[m
+[31m-    name: Code Quality[m
+[31m-    runs-on: ubuntu-latest[m
+[31m-    [m
+[31m-    steps:[m
+[31m-    - uses: actions/checkout@v4[m
+[31m-    [m
+[31m-    - name: Set up Python[m
+[31m-      uses: actions/setup-python@v4[m
+[31m-      with:[m
+[31m-        python-version: '3.11'[m
+[31m-    [m
+[31m-    - name: Cache pip dependencies[m
+[31m-      uses: actions/cache@v3[m
+[31m-      with:[m
+[31m-        path: ~/.cache/pip[m
+[31m-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}[m
+[31m-        restore-keys: |[m
+[31m-          ${{ runner.os }}-pip-[m
+[31m-    [m
+[31m-    - name: Install dependencies[m
+[31m-      run: |[m
+[31m-        python -m pip install --upgrade pip[m
+[31m-        pip install flake8 black isort mypy bandit safety[m
+[31m-        pip install -r requirements.txt[m
+[31m-    [m
+[31m-    - name: Run flake8[m
+[31m-      run: |[m
+[31m-        flake8 --max-line-length=100 --exclude=venv,env,__pycache__ --statistics[m
+[31m-    [m
+[31m-    - name: Check code formatting with black[m
+[31m-      run: |[m
+[31m-        black --check --diff .[m
+[31m-    [m
+[31m-    - name: Check import sorting with isort[m
+[31m-      run: |[m
+[31m-        isort --check-only --diff .[m
+[31m-    [m
+[31m-    - name: Type checking with mypy[m
+[31m-      run: |[m
+[31m-        mypy --ignore-missing-imports --no-strict-optional .[m
+[31m-      continue-on-error: true[m
+[31m-    [m
+[31m-    - name: Security check with bandit[m
+[31m-      run: |[m
+[31m-        bandit -r . -x tests/ -f json -o bandit-report.json[m
+[31m-        bandit -r . -x tests/[m
+[31m-      continue-on-error: true[m
+[31m-    [m
+[31m-    - name: Dependency vulnerability check[m
+[31m-      run: |[m
+[31m-        safety check --json --output safety-report.json[m
+[31m-        safety check[m
+[31m-      continue-on-error: true[m
+[31m-    [m
+[31m-    - name: Upload security reports[m
+[31m-      uses: actions/upload-artifact@v3[m
+[31m-      if: always()[m
+[31m-      with:[m
+[31m-        name: security-reports[m
+[31m-        path: |[m
+[31m-          bandit-report.json[m
+[31m-          safety-report.json[m
+[31m-[m
+[31m-  test:[m
+[31m-    name: Test Suite[m
+[31m-    runs-on: ${{ matrix.os }}[m
+[31m-    strategy:[m
+[31m-      matrix:[m
+[31m-        os: [ubuntu-latest, windows-latest, macos-latest][m
+[31m-        python-version: ['3.8', '3.9', '3.10', '3.11'][m
+[31m-        exclude:[m
+[31m-          # Reduce matrix size for faster CI[m
+[31m-          - os: macos-latest[m
+[31m-            python-version: '3.8'[m
+[31m-          - os: windows-latest[m
+[31m-            python-version: '3.8'[m
+[31m-    [m
+[31m-    steps:[m
+[31m-    - uses: actions/checkout@v4[m
+[31m-    [m
+[31m-    - name: Set up Python ${{ matrix.python-version }}[m
+[31m-      uses: actions/setup-python@v4[m
+[31m-      with:[m
+[31m-        python-version: ${{ matrix.python-version }}[m
+[31m-    [m
+[31m-    - name: Cache pip dependencies[m
+[31m-      uses: actions/cache@v3[m
+[31m-      with:[m
+[31m-        path: |[m
+[31m-          ~/.cache/pip[m
+[31m-          ~/AppData/Local/pip/Cache[m
+[31m-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}[m
+[31m-        restore-keys: |[m
+[31m-          ${{ runner.os }}-pip-${{ matrix.python-version }}-[m
+[31m-          ${{ runner.os }}-pip-[m
+[31m-    [m
+[31m-    - name: Install system dependencies (Ubuntu)[m
+[31m-      if: matrix.os == 'ubuntu-latest'[m
+[31m-      run: |[m
+[31m-        sudo apt-get update[m
+[31m-        sudo apt-get install -y libmagic1[m
+[31m-    [m
+[31m-    - name: Install system dependencies (macOS)[m
+[31m-      if: matrix.os == 'macos-latest'[m
+[31m-      run: |[m
+[31m-        brew install libmagic[m
+[31m-    [m
+[31m-    - name: Install Python dependencies[m
+[31m-      run: |[m
+[31m-        python -m pip install --upgrade pip[m
+[31m-        pip install wheel setuptools[m
+[31m-        pip install -r requirements.txt[m
+[31m-    [m
+[31m-    - name: Verify installation[m
+[31m-      run: |[m
+[31m-        python -c "import app; print('App import successful')"[m
+[31m-        python -c "import crypto.symmetric; print('Crypto import successful')"[m
+[31m-        python -c "import utils.validators; print('Utils import successful')"[m
+[31m-    [m
+[31m-    - name: Run unit tests[m
+[31m-      run: |[m
+[31m-        python run_tests.py unit[m
+[31m-    [m
+[31m-    - name: Run integration tests[m
+[31m-      run: |[m
+[31m-        python run_tests.py integration[m
+[31m-    [m
+[31m-    - name: Run quick tests with coverage[m
+[31m-      run: |[m
+[31m-        pytest tests/ -m "not slow and not performance" --cov=. --cov-report=xml --cov-report=term-missing[m
+[31m-    [m
+[31m-    - name: Upload coverage to Codecov[m
+[31m-      uses: codecov/codecov-action@v3[m
+[31m-      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'[m
+[31m-      with:[m
+[31m-        file: ./coverage.xml[m
+[31m-        flags: unittests[m
+[31m-        name: codecov-umbrella[m
+[31m-[m
+[31m-  performance:[m
+[31m-    name: Performance Tests[m
+[31m-    runs-on: ubuntu-latest[m
+[31m-    needs: test[m
+[31m-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'[m
+[31m-    [m
+[31m-    steps:[m
+[31m-    - uses: actions/checkout@v4[m
+[31m-    [m
+[31m-    - name: Set up Python[m
+[31m-      uses: actions/setup-python@v4[m
+[31m-      with:[m
+[31m-        python-version: '3.11'[m
+[31m-    [m
+[31m-    - name: Install dependencies[m
+[31m-      run: |[m
+[31m-        python -m pip install --upgrade pip[m
+[31m-        pip install -r requirements.txt[m
+[31m-    [m
+[31m-    - name: Run performance benc

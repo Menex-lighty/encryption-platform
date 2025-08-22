@@ -269,3 +269,5 @@ sandbox/
 # Claude AI files
 .claude/
 *.claude
+# GitHub Actions (disabled for now)
+.github/
